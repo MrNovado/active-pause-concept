@@ -26,7 +26,13 @@ export const Box: React.FC<BoxProps> = ({
       position={position}
     >
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
+      <meshStandardMaterial
+        color={
+          selected && hovered //
+            ? 'hotpink'
+            : 'orange'
+        }
+      />
     </mesh>
   );
 };
