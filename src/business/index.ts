@@ -1,2 +1,2 @@
 export { playerActions, playerSelectors } from './Player';
-export {} from './Time';
+export { timeActions, timeSelectors } from './Time';

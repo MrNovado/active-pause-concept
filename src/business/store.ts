@@ -4,6 +4,7 @@ import createSagaMiddleware, { SagaMiddleware } from 'redux-saga';
 import { AppState } from './common';
 import { rootSaga } from './saga';
 
+import { time } from './Time/time';
 import { player } from './Player/player';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -15,6 +16,7 @@ export const store = configureStore<
 >({
   reducer: {
     player: player.reducer,
+    time: time.reducer,
   },
   middleware: (d) =>
     d({

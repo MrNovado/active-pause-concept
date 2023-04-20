@@ -1,11 +1,31 @@
-import { createAction } from '@reduxjs/toolkit';
+import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import { initialState } from './time.initial';
+import { AppState } from '../common';
 
-const name = 'time';
+export const time = createSlice({
+  name: 'time',
+  initialState,
+  reducers: {
+    $start: (state) => {
+      state.running = true;
+      return state;
+    },
+    $stop: (state) => {
+      state.running = false;
+      return state;
+    },
+  },
+});
 
 export const timeActions = {
-  tick: createAction(`${name}/tick`),
-  $stop: createAction(`${name}/$stop`),
-  $start: createAction(`${name}/$start`),
+  ...time.actions,
+  tick: createAction(`${time.name}/tick`),
 };
 
-export const timeSelectors = {};
+const self = (s: AppState): AppState['time'] => s.time;
+const running = createSelector(self, (s) => s.running);
+
+export const timeSelectors = {
+  self,
+  running,
+};
