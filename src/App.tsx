@@ -1,7 +1,7 @@
 import { Canvas } from '@react-three/fiber';
 import { Box } from '@/components';
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   return (
     <Canvas style={{ height: '100%' }}>
       <ambientLight />
@@ -11,5 +11,3 @@ const App: React.FC = () => {
     </Canvas>
   );
 };
-
-export default App;
