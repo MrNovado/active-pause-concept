@@ -1,21 +1,14 @@
-import reactLogo from '@/assets/react.svg';
-import viteLogo from '@/assets/vite.svg';
-import './App.css';
+import { Canvas } from '@react-three/fiber';
+import { Box } from '@/components';
 
 const App: React.FC = () => {
   return (
-    <>
-      <img
-        src={reactLogo}
-        className="logo react"
-        alt="React logo"
-      />
-      <img
-        src={viteLogo}
-        className="logo"
-        alt="Vite logo"
-      />
-    </>
+    <Canvas style={{ height: '100%' }}>
+      <ambientLight />
+      <pointLight position={[10, 10, 10]} />
+      <Box position={[-1.2, 0, 0]} />
+      <Box position={[1.2, 0, 0]} />
+    </Canvas>
   );
 };
 
