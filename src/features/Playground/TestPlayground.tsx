@@ -11,11 +11,11 @@ export const TestPlayground: React.FC = () => {
   const isTimeRunning = useSelector(timeSelectors.running);
 
   const startTime = (): void => {
-    dispatch(timeActions.$start());
+    dispatch(timeActions.$$start());
   };
 
   const stopTime = (): void => {
-    dispatch(timeActions.$stop());
+    dispatch(timeActions.$$stop());
   };
 
   const mesh1 = useRef<Mesh>(null);

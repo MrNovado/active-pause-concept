@@ -1,16 +1,17 @@
 import { createAction, createSelector, createSlice } from '@reduxjs/toolkit';
-import { initialState } from './time.initial';
 import { AppState } from '../common';
+import { TIME_CFG } from './time.config';
+import { initialState } from './time.initial';
 
 export const time = createSlice({
   name: 'time',
   initialState,
   reducers: {
-    $start: (state) => {
+    $$start: (state) => {
       state.running = true;
       return state;
     },
-    $stop: (state) => {
+    $$stop: (state) => {
       state.running = false;
       return state;
     },
@@ -19,7 +20,22 @@ export const time = createSlice({
 
 export const timeActions = {
   ...time.actions,
-  tick: createAction(`${time.name}/tick`),
+  tick: createAction(
+    `${time.name}/tick`, //
+    (startOrElapsedT: Date | number | undefined) => {
+      if (startOrElapsedT === undefined) {
+        return { payload: { elapsedRT: TIME_CFG.tickRT } };
+      }
+
+      if (typeof startOrElapsedT === 'object') {
+        const startT = startOrElapsedT;
+        return { payload: { elapsedRT: new Date().valueOf() - startT.valueOf() } };
+      }
+
+      const elapsedRT = startOrElapsedT;
+      return { payload: { elapsedRT } };
+    },
+  ),
 };
 
 const self = (s: AppState): AppState['time'] => s.time;

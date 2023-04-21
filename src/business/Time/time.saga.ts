@@ -1,23 +1,33 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { call, delay, put, race, take } from 'typed-redux-saga';
-import { timeActions } from './time';
+import { call, delay, put, race, select, take } from 'typed-redux-saga';
+import { timeActions, timeSelectors } from './time';
+import { TIME_CFG } from './time.config';
+
+const timeRef = {
+  current: new Date(),
+};
 
 function* clock() {
-  yield* delay(1000);
-  yield* put(timeActions.tick());
+  timeRef.current = new Date();
+  yield* delay(TIME_CFG.tickRT);
+  yield* put(timeActions.tick(timeRef.current));
 }
 
 function* timeStep() {
-  yield* take(timeActions.$start.type);
+  const running = yield* select(timeSelectors.running);
+  if (running === false) {
+    yield* take(timeActions.$$start.type);
+  }
 
   while (true) {
     const { stop } = yield* race({
       clock: call(clock), //
-      stop: take(timeActions.$stop.type),
+      stop: take(timeActions.$$stop.type),
     });
 
     if (stop) {
-      yield* take(timeActions.$start.type);
+      yield* put(timeActions.tick(timeRef.current));
+      yield* take(timeActions.$$start.type);
     }
   }
 }
