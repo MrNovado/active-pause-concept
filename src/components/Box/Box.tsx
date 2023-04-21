@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { MeshProps } from '@react-three/fiber';
 
 type BoxProps = {
   position: MeshProps['position']; //
+  color?: string;
   selected?: boolean;
   meshRef?: MeshProps['ref'];
   onClick?: () => void;
@@ -10,11 +11,26 @@ type BoxProps = {
 
 export const Box: React.FC<BoxProps> = ({
   meshRef,
+  color = '',
   selected = false,
   position, //
   onClick,
 }) => {
   const [hovered, setHover] = useState(false);
+  const trueColor = useMemo(
+    () => {
+      if (selected && hovered) {
+        return 'hotpink';
+      }
+
+      if (color) {
+        return color;
+      }
+
+      return 'orange';
+    }, //
+    [color, hovered, selected],
+  );
 
   return (
     <mesh
@@ -26,13 +42,7 @@ export const Box: React.FC<BoxProps> = ({
       position={position}
     >
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial
-        color={
-          selected && hovered //
-            ? 'hotpink'
-            : 'orange'
-        }
-      />
+      <meshStandardMaterial color={trueColor} />
     </mesh>
   );
 };

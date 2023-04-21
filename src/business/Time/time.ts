@@ -22,7 +22,7 @@ export const timeActions = {
   ...time.actions,
   tick: createAction(
     `${time.name}/tick`, //
-    (startOrElapsedT: Date | number | undefined) => {
+    (startOrElapsedT?: Date | number) => {
       if (startOrElapsedT === undefined) {
         return { payload: { elapsedRT: TIME_CFG.tickRT } };
       }

@@ -1,1 +1,1 @@
-export { playerActions, playerSelectors } from './player';
+export { playerActions, playerSelectors, playerReducer } from './player';
